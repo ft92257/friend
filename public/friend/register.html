@@ -21,14 +21,78 @@
 	<link rel="stylesheet" href="/assets/am/css/amazeui.min.css">
 	<link rel="stylesheet" href="/assets/am/css/app.css">
 
-	<title>Hello world</title>
+	<title>用户注册</title>
+	<style>
+		.tb-list tr td{
+			height: 4rem;
+		}
+		.tb-list label{
+			font-weight: normal;
+			padding-left: 2rem;
+		}
+
+	</style>
 </head>
 <body>
-<p>
-	Hello world.
-</p>
+<div>
+	<a href="#"><img style="width: 100%" src="http://ohlpsk680.bkt.clouddn.com/banner.jpg" /></a>
+</div>
+
+
+<form enctype="multipart/form-data" method="post">
+	<fieldset>
+	<legend>用户登录</legend>
+	<table style="width: 95%;" class="tb-list">
+		<tr><td width="30%">
+			<label>用户名</label>
+		</td><td>
+			<input type="text" class="am-form-field" id="username" placeholder="">
+		</td></tr>
+		<tr><td>
+			<label>密码</label>
+		</td><td>
+			<input type="password" class="am-form-field" id="password" placeholder="">
+		</td></tr>
+		<tr><td>
+		</td><td>
+			<button type="button" class="am-btn am-btn-primary am-radius" onclick="doSubmit();" >登&nbsp;&nbsp;录</button>
+		</td></tr>
+	</table>
+	</fieldset>
+</form>
+
+
 
 <!--在这里编写你的代码-->
+<script>
+
+	function doSubmit()
+	{
+		$.post('/login/login', {username:$('#username').val(), password:$('#password').val()}, function(ret){
+			if (ret.code == 20000) {
+				//alert('登录成功');
+				location.href = '/index/index';
+			} else {
+				//alert(ret.msg);
+				$('.am-modal-bd').html(ret.msg);
+				$('#my-alert').modal();
+			}
+		}, 'json');
+	}
+
+</script>
+
+<div class="am-modal am-modal-alert" tabindex="-1" id="my-alert">
+	<div class="am-modal-dialog">
+		<div class="am-modal-hd"><span style="font-weight: bold">提示消息</span></div>
+		<div class="am-modal-bd">
+
+		</div>
+		<div class="am-modal-footer">
+			<span class="am-modal-btn">确定</span>
+		</div>
+	</div>
+</div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 <script src="/assets/am/js/jquery.min.js"></script>
