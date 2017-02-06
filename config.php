@@ -37,6 +37,7 @@ return [
         'JPUSH_PRODUCTION' => false,
 		
         'statics' => '/assets/',
+        'template_cache' => false,
 
 ];
 

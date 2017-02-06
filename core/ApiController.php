@@ -10,6 +10,8 @@ class ApiController
     protected $_authlevel = 1;
     protected $_success_status = 200;
     protected $uid = 0;
+    protected $layout = 'wep';
+    protected $_assign = [];
 
     /**
      * 是否POST
@@ -76,6 +78,26 @@ class ApiController
 
         header('Content-type: application/json');
         die(json_encode($ret, JSON_UNESCAPED_UNICODE));
+    }
+
+    public function multiAssign($arr)
+    {
+        $this->_assign = array_merge($this->_assign, $arr);
+    }
+
+    public function assign($key, $value)
+    {
+        $this->_assign[$key] = $value;
+    }
+
+    public function display($template = '', $app = '')
+    {
+        include_once(Cf::getRootPath() . '/core/BaseView.php');
+        $view = ($app ? $app : CONTROLLER) . '/' . ($template ? $template : ACTION);
+        BaseView::$cacheOpen = Cf::C('template_cache');
+
+        BaseView::display($view, $this->_assign, $this->layout);
+        exit;
     }
 
 }

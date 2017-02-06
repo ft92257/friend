@@ -2,6 +2,7 @@
 
 class MeetResponseController extends Controller
 {
+    protected $_authlevel = 0;//TODO 删除
 
     public function __construct()
     {
@@ -10,8 +11,23 @@ class MeetResponseController extends Controller
         $this->model = MeetResponse::m();
     }
 
+    protected function _add()
+    {
+        $this->assign('title', '回应');
+        $form = new WepForm();
+        $formHtml = '';
+        $formHtml .= $form->getTextareaHtml('备注', 'info');
+
+        $this->assign('formHtml', $formHtml);
+        $this->display();
+    }
+
     public function add()
     {
+        if (!$this->isPost()) {
+            $this->_add();
+        }
+
         $meetId = (int) request('meet_id');
         $data = [
             'uid' => $this->uid,

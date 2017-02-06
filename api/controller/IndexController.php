@@ -28,8 +28,10 @@ class IndexController extends Controller
 
     public function meetList()
     {
+        $user = \User::m()->getById($this->uid);
+        //TODO 筛选条件
         $data = $this->model->getAll([
-            'where' => ['status' => 0],
+            'where' => ['status' => 0, 'find_sex' => $user['sex']],
             'order' => 'created_at DESC',
             'limit' => Func::getPageLimit(request('page'), 10),
         ]);
